@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>百度文字转语音服务</h1>
+    <audio controls="controls" id="myAudio">
+      Your browser does not support the audio element.
+    </audio>
+    <script>
+      $(function() {
+        $.ajax({
+          type: 'POST',
+          url: "http://localhost:3000/baiduAI/speech",
+          data: {
+            text: '日光岩，是鼓浪屿每天第一缕阳光照到的地方，俗称""岩仔山""，别名""晃岩""，相传1641年，郑成功来到晃岩，看到这里的景色胜过日本的日光山，便把""晃""字拆开，称之为""日光岩""。日光岩游览区由日光岩和琴园两个部分组成。日光岩耸峙于鼓浪屿中部偏南，是由两块巨石一竖一横相倚而立，成为龙头山的顶峰，海拔92.7米...',
+            spd: '6',
+            pit: '3',
+            vol: '8',
+            per: '0'
+          },
+          success: function(res) {
+            console.log(res);
+            var data = res.data;
+            if(res.ret === 0) {
+              document.getElementById("myAudio").src = data.path;
+              document.getElementById("myAudio").play();
+            }
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
